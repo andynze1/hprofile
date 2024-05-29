@@ -57,6 +57,7 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_URL }} #OPTIONAL
 
   BUILD_AND_PUBLISH:
+    needs: build
     name: Build and Publish
     runs-on:
       - ubuntu-latest
