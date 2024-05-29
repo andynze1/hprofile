@@ -5,7 +5,7 @@ on:
       - main
   pull_request:
     branches:
-      - mail
+      - main
 
 jobs:
   Testing:
@@ -15,20 +15,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Maven Test
+      - name: Maven test
         run: mvn test
 
       - name: Checkstyle
         run: mvn checkstyle:checkstyle
 
-        # Setup Java 11 to be default (Sonar-scanner requirement as of 5.x)
-      - name: Set Java 111
+      # Setup java 11 to be default (sonar-scanner requirement as of 5.x)
+      - name: Set Java 11
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin' # See 'Supported distributions' for available
-          java-version: '11'
+         distribution: 'temurin' # See 'Supported distributions' for available options
+         java-version: '11'
 
-        # Setup sonar-scanner
+    # Setup sonar-scanner
+      - name: Setup SonarQube
+        uses: warchant/setup-sonar-scanner@v7
+   
+    # Run sonar-scanner
       - name: SonarQube Scan
         run: sonar-scanner
            -Dsonar.host.url=${{ secrets.SONAR_URL }}
